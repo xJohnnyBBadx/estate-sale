@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estate Items - Claim What You Want</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+        
+        header p {
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        .instructions {
+            background: #fff;
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        .instructions h2 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        
+        .instructions ol {
+            margin-left: 1.5rem;
+        }
+        
+        .instructions li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .instructions code {
+            background: #ecf0f1;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+        
+        .email-link {
+            display: inline-block;
+            background: #27ae60;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-top: 1rem;
+            transition: background 0.2s;
+        }
+        
+        .email-link:hover {
+            background: #219a52;
+        }
+        
+        nav {
+            background: #fff;
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        nav a {
+            color: #2c3e50;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        
+        nav a:hover {
+            background: #ecf0f1;
+        }
+        
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .room-section {
+            margin-bottom: 4rem;
+        }
+        
+        .room-section h2 {
+            font-size: 1.75rem;
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 0.5rem;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+        
+        .photo-card {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .photo-card img {
+            width: 100%;
+            height: auto;
+            display: block;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        
+        .photo-card img:hover {
+            opacity: 0.95;
+        }
+        
+        .photo-info {
+            padding: 1.5rem;
+        }
+        
+        .photo-info h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-weight: 500;
+        }
+        
+        .items-list {
+            list-style: none;
+        }
+        
+        .items-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #ecf0f1;
+        }
+        
+        .items-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .item-name {
+            flex: 1;
+        }
+        
+        .item-code {
+            font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+            background: #3498db;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-left: 1rem;
+        }
+        
+        .claim-btn {
+            display: inline-block;
+            background: #e74c3c;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-left: 0.5rem;
+            transition: background 0.2s;
+        }
+        
+        .claim-btn:hover {
+            background: #c0392b;
+        }
+        
+        footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+        
+        footer a {
+            color: #3498db;
+        }
+        
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .lightbox.active {
+            display: flex;
+        }
+        
+        .lightbox img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+        }
+        
+        .lightbox-close {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.75rem;
+            }
+            
+            nav ul {
+                gap: 0.5rem;
+            }
+            
+            nav a {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.9rem;
+            }
+            
+            .items-list li {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+            
+            .item-code {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Estate Items Available</h1>
+        <p>Browse the photos below and claim any items you'd like. Everything not claimed will be disposed of. Act fast!</p>
+    </header>
+    
+    <div class="instructions">
+        <h2>How to Claim Items</h2>
+        <ol>
+            <li>Browse the photos and find items you want</li>
+            <li>Note the <strong>claim code</strong> (e.g., <code>LR-001</code>) for each item</li>
+            <li>Send an email with the claim codes of ALL items you want</li>
+            <li>First come, first served — you'll get a confirmation if available</li>
+        </ol>
+        <a href="mailto:me@luishurtado.com?subject=Estate%20Item%20Claim&body=Hi%20Luis%2C%0A%0AI%20would%20like%20to%20claim%20the%20following%20items%3A%0A%0A-%20%5BCode%5D%20Item%20name%0A-%20%5BCode%5D%20Item%20name%0A%0APlease%20let%20me%20know%20pickup%20details.%0A%0AThanks!" class="email-link">📧 Email Your Claims to me@luishurtado.com</a>
+    </div>
+    
+    <nav>
+        <ul>
+            <li><a href="#living-room">Living Room</a></li>
+            <li><a href="#dining-area">Dining Area</a></li>
+            <li><a href="#kitchen">Kitchen</a></li>
+            <li><a href="#bedroom">Bedroom</a></li>
+            <li><a href="#closets">Closets & Storage</a></li>
+            <li><a href="#bathroom">Bathroom</a></li>
+        </ul>
+    </nav>
+    
+    <main>
+        <!-- LIVING ROOM -->
+        <section id="living-room" class="room-section">
+            <h2>Living Room</h2>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.30.12.jpg" alt="Living Room Overview" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>Living Room Overview</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">Large Red/Cream Oriental Rug (approx 8x10)</span>
+                            <span class="item-code">LR-001</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-001%20Oriental%20Rug&body=I%20would%20like%20to%20claim%20LR-001%20-%20Large%20Oriental%20Rug" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Cream/Beige Sofa</span>
+                            <span class="item-code">LR-002</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-002%20Sofa&body=I%20would%20like%20to%20claim%20LR-002%20-%20Cream%20Sofa" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Floor Lamp with Shade</span>
+                            <span class="item-code">LR-003</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-003%20Floor%20Lamp&body=I%20would%20like%20to%20claim%20LR-003%20-%20Floor%20Lamp" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Black Storage Totes (set of 4)</span>
+                            <span class="item-code">LR-004</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-004%20Storage%20Totes&body=I%20would%20like%20to%20claim%20LR-004%20-%20Storage%20Totes" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Oriental Runner Rug (entry)</span>
+                            <span class="item-code">LR-005</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-005%20Runner%20Rug&body=I%20would%20like%20to%20claim%20LR-005%20-%20Runner%20Rug" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Folding Step Ladder</span>
+                            <span class="item-code">LR-006</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-006%20Step%20Ladder&body=I%20would%20like%20to%20claim%20LR-006%20-%20Step%20Ladder" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Blue-Gray Window Curtains (pair)</span>
+                            <span class="item-code">LR-007</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-007%20Curtains&body=I%20would%20like%20to%20claim%20LR-007%20-%20Window%20Curtains" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.31.01.jpg" alt="Living Room - Wall Unit Area" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>Living Room - Wall Unit & Murphy Bed Area</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">Murphy Bed/Built-in Cabinet Unit</span>
+                            <span class="item-code">LR-008</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-008%20Murphy%20Bed&body=I%20would%20like%20to%20claim%20LR-008%20-%20Murphy%20Bed%20Unit" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Vintage Wooden Rocking Chair</span>
+                            <span class="item-code">LR-009</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-009%20Rocking%20Chair&body=I%20would%20like%20to%20claim%20LR-009%20-%20Rocking%20Chair" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Large Decorative Doll</span>
+                            <span class="item-code">LR-010</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-010%20Decorative%20Doll&body=I%20would%20like%20to%20claim%20LR-010%20-%20Decorative%20Doll" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">White Metal Shelf Unit</span>
+                            <span class="item-code">LR-011</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-011%20Metal%20Shelf&body=I%20would%20like%20to%20claim%20LR-011%20-%20Metal%20Shelf%20Unit" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">White Bookshelf with Collectibles</span>
+                            <span class="item-code">LR-012</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-012%20Bookshelf&body=I%20would%20like%20to%20claim%20LR-012%20-%20White%20Bookshelf" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Decorative Butterfly/Floral Valance with Lights</span>
+                            <span class="item-code">LR-013</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-013%20Valance&body=I%20would%20like%20to%20claim%20LR-013%20-%20Decorative%20Valance" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Corner Shelving Unit with Figurines</span>
+                            <span class="item-code">LR-014</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-014%20Corner%20Shelf&body=I%20would%20like%20to%20claim%20LR-014%20-%20Corner%20Shelf%20with%20Figurines" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.31.05.jpg" alt="Living Room - Desk Area" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>Living Room - Desk & Bookcase Area</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">Large Framed Art Print (Woman in Dress)</span>
+                            <span class="item-code">LR-015</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-015%20Framed%20Art&body=I%20would%20like%20to%20claim%20LR-015%20-%20Framed%20Art%20Print" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Flat Screen Computer Monitor</span>
+                            <span class="item-code">LR-016</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-016%20Monitor&body=I%20would%20like%20to%20claim%20LR-016%20-%20Computer%20Monitor" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Oak Barrister Bookcase (4-tier with glass doors)</span>
+                            <span class="item-code">LR-017</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-017%20Barrister%20Bookcase&body=I%20would%20like%20to%20claim%20LR-017%20-%20Barrister%20Bookcase" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Antique Mantel Clock</span>
+                            <span class="item-code">LR-018</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-018%20Mantel%20Clock&body=I%20would%20like%20to%20claim%20LR-018%20-%20Antique%20Mantel%20Clock" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Small Round Side Table</span>
+                            <span class="item-code">LR-019</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-019%20Side%20Table&body=I%20would%20like%20to%20claim%20LR-019%20-%20Round%20Side%20Table" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Wooden Chest/Dresser</span>
+                            <span class="item-code">LR-020</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-020%20Chest&body=I%20would%20like%20to%20claim%20LR-020%20-%20Wooden%20Chest" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Book Collection (mixed titles)</span>
+                            <span class="item-code">LR-021</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-021%20Books&body=I%20would%20like%20to%20claim%20LR-021%20-%20Book%20Collection" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">DVD/VHS Collection</span>
+                            <span class="item-code">LR-022</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20LR-022%20DVDs&body=I%20would%20like%20to%20claim%20LR-022%20-%20DVD%20Collection" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- DINING AREA -->
+        <section id="dining-area" class="room-section">
+            <h2>Dining Area</h2>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.31.11.jpg" alt="Dining Area" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>Dining Room</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">Dining Table with Burgundy Tablecloth</span>
+                            <span class="item-code">DR-001</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20DR-001%20Dining%20Table&body=I%20would%20like%20to%20claim%20DR-001%20-%20Dining%20Table" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Queen Anne Style Dining Chairs (set of 4)</span>
+                            <span class="item-code">DR-002</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20DR-002%20Dining%20Chairs&body=I%20would%20like%20to%20claim%20DR-002%20-%20Dining%20Chairs" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">China Cabinet/Hutch #1 (with glass doors)</span>
+                            <span class="item-code">DR-003</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20DR-003%20China%20Cabinet&body=I%20would%20like%20to%20claim%20DR-003%20-%20China%20Cabinet%20%231" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">China Cabinet/Hutch #2 (oak with carved detail)</span>
+                            <span class="item-code">DR-004</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20DR-004%20China%20Cabinet&body=I%20would%20like%20to%20claim%20DR-004%20-%20China%20Cabinet%20%232" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Track Lighting Fixture</span>
+                            <span class="item-code">DR-005</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20DR-005%20Track%20Lighting&body=I%20would%20like%20to%20claim%20DR-005%20-%20Track%20Lighting" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Framed European Village Paintings (set of 3)</span>
+                            <span class="item-code">DR-006</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20DR-006%20Paintings&body=I%20would%20like%20to%20claim%20DR-006%20-%20Village%20Paintings" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Mini Freezer/Refrigerator</span>
+                            <span class="item-code">DR-007</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20DR-007%20Mini%20Fridge&body=I%20would%20like%20to%20claim%20DR-007%20-%20Mini%20Freezer" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Printer on Rolling Cart</span>
+                            <span class="item-code">DR-008</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20DR-008%20Printer&body=I%20would%20like%20to%20claim%20DR-008%20-%20Printer%20on%20Cart" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.32.12.jpg" alt="China Cabinet Interior" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>China Cabinet Contents</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">Crystal Wine Glasses Set</span>
+                            <span class="item-code">DR-009</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20DR-009%20Wine%20Glasses&body=I%20would%20like%20to%20claim%20DR-009%20-%20Crystal%20Wine%20Glasses" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Decorative Floral Mugs (pair)</span>
+                            <span class="item-code">DR-010</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20DR-010%20Floral%20Mugs&body=I%20would%20like%20to%20claim%20DR-010%20-%20Floral%20Mugs" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">White Woven Decorative Bowl</span>
+                            <span class="item-code">DR-011</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20DR-011%20Bowl&body=I%20would%20like%20to%20claim%20DR-011%20-%20Woven%20Decorative%20Bowl" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Leaded Glass Cabinet Door Section</span>
+                            <span class="item-code">DR-012</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20DR-012%20Cabinet&body=I%20would%20like%20to%20claim%20DR-012%20-%20Leaded%20Glass%20Cabinet" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.32.26.jpg" alt="Cabinet Top Shelf" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>Cabinet Top & Decorative Items</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">Large Green Ceramic Decorative Vase/Egg</span>
+                            <span class="item-code">DR-013</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20DR-013%20Green%20Vase&body=I%20would%20like%20to%20claim%20DR-013%20-%20Green%20Ceramic%20Vase" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Small Animal Figurines (birds, etc.)</span>
+                            <span class="item-code">DR-014</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20DR-014%20Figurines&body=I%20would%20like%20to%20claim%20DR-014%20-%20Animal%20Figurines" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Decorative Plates Collection</span>
+                            <span class="item-code">DR-015</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20DR-015%20Plates&body=I%20would%20like%20to%20claim%20DR-015%20-%20Decorative%20Plates" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Blue Cut Glass Vase</span>
+                            <span class="item-code">DR-016</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20DR-016%20Blue%20Vase&body=I%20would%20like%20to%20claim%20DR-016%20-%20Blue%20Cut%20Glass%20Vase" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Orange Decorative Vase</span>
+                            <span class="item-code">DR-017</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20DR-017%20Orange%20Vase&body=I%20would%20like%20to%20claim%20DR-017%20-%20Orange%20Vase" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- KITCHEN -->
+        <section id="kitchen" class="room-section">
+            <h2>Kitchen</h2>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.31.17.jpg" alt="Kitchen Overview" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>Kitchen Overview</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">Black Refrigerator</span>
+                            <span class="item-code">KT-001</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20KT-001%20Refrigerator&body=I%20would%20like%20to%20claim%20KT-001%20-%20Black%20Refrigerator" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Coffee Maker</span>
+                            <span class="item-code">KT-002</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20KT-002%20Coffee%20Maker&body=I%20would%20like%20to%20claim%20KT-002%20-%20Coffee%20Maker" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Wire Shelving Unit</span>
+                            <span class="item-code">KT-003</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20KT-003%20Wire%20Shelving&body=I%20would%20like%20to%20claim%20KT-003%20-%20Wire%20Shelving%20Unit" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Yellow Ceiling Light Fixture</span>
+                            <span class="item-code">KT-004</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20KT-004%20Light%20Fixture&body=I%20would%20like%20to%20claim%20KT-004%20-%20Ceiling%20Light%20Fixture" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.31.44.jpg" alt="Kitchen Cabinet" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>Kitchen Cabinet Contents</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">White Dinnerware Set (plates, bowls, cups)</span>
+                            <span class="item-code">KT-005</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20KT-005%20Dinnerware&body=I%20would%20like%20to%20claim%20KT-005%20-%20White%20Dinnerware%20Set" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Mug Collection (assorted)</span>
+                            <span class="item-code">KT-006</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20KT-006%20Mugs&body=I%20would%20like%20to%20claim%20KT-006%20-%20Mug%20Collection" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Travel Mugs/Thermoses</span>
+                            <span class="item-code">KT-007</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20KT-007%20Travel%20Mugs&body=I%20would%20like%20to%20claim%20KT-007%20-%20Travel%20Mugs" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Toaster Oven</span>
+                            <span class="item-code">KT-008</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20KT-008%20Toaster%20Oven&body=I%20would%20like%20to%20claim%20KT-008%20-%20Toaster%20Oven" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Dish Drying Rack</span>
+                            <span class="item-code">KT-009</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20KT-009%20Dish%20Rack&body=I%20would%20like%20to%20claim%20KT-009%20-%20Dish%20Drying%20Rack" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Black Dishes/Mugs Set</span>
+                            <span class="item-code">KT-010</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20KT-010%20Black%20Dishes&body=I%20would%20like%20to%20claim%20KT-010%20-%20Black%20Dishes%20Set" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.31.29.jpg" alt="Kitchen Cabinets" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>Kitchen Upper Cabinets</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">Copper/Bronze Mixing Bowl</span>
+                            <span class="item-code">KT-011</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20KT-011%20Mixing%20Bowl&body=I%20would%20like%20to%20claim%20KT-011%20-%20Copper%20Mixing%20Bowl" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Decorative Mugs Collection (polka dot, etc.)</span>
+                            <span class="item-code">KT-012</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20KT-012%20Decorative%20Mugs&body=I%20would%20like%20to%20claim%20KT-012%20-%20Decorative%20Mugs" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Vitamins & Supplements Collection</span>
+                            <span class="item-code">KT-013</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20KT-013%20Vitamins&body=I%20would%20like%20to%20claim%20KT-013%20-%20Vitamins" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- BEDROOM -->
+        <section id="bedroom" class="room-section">
+            <h2>Bedroom</h2>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.35.35.jpg" alt="Bedroom Overview" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>Bedroom Overview</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">Victorian Metal Bed Frame (white/brass)</span>
+                            <span class="item-code">BR-001</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-001%20Bed%20Frame&body=I%20would%20like%20to%20claim%20BR-001%20-%20Victorian%20Bed%20Frame" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Tropical Wall Mural (palm trees)</span>
+                            <span class="item-code">BR-002</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-002%20Wall%20Mural&body=I%20would%20like%20to%20claim%20BR-002%20-%20Tropical%20Wall%20Mural" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Ceiling Fan with Light</span>
+                            <span class="item-code">BR-003</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-003%20Ceiling%20Fan&body=I%20would%20like%20to%20claim%20BR-003%20-%20Ceiling%20Fan" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Navy Blue Curtains (pair)</span>
+                            <span class="item-code">BR-004</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-004%20Curtains&body=I%20would%20like%20to%20claim%20BR-004%20-%20Navy%20Curtains" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Burgundy Leather Travel Bags (set)</span>
+                            <span class="item-code">BR-005</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-005%20Travel%20Bags&body=I%20would%20like%20to%20claim%20BR-005%20-%20Leather%20Travel%20Bags" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Bedding Set (comforter, pillows)</span>
+                            <span class="item-code">BR-006</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-006%20Bedding&body=I%20would%20like%20to%20claim%20BR-006%20-%20Bedding%20Set" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.35.54.jpg" alt="Bedroom Entertainment Unit" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>Bedroom Entertainment Unit</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">Blue/Brown Entertainment Wall Unit</span>
+                            <span class="item-code">BR-007</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-007%20Entertainment%20Unit&body=I%20would%20like%20to%20claim%20BR-007%20-%20Entertainment%20Wall%20Unit" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Lladro-style Porcelain Figurines Collection</span>
+                            <span class="item-code">BR-008</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-008%20Figurines&body=I%20would%20like%20to%20claim%20BR-008%20-%20Porcelain%20Figurines" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Venetian Style Decorative Masks</span>
+                            <span class="item-code">BR-009</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-009%20Masks&body=I%20would%20like%20to%20claim%20BR-009%20-%20Venetian%20Masks" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Flat Screen TV</span>
+                            <span class="item-code">BR-010</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-010%20TV&body=I%20would%20like%20to%20claim%20BR-010%20-%20Flat%20Screen%20TV" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Wood Dresser (by window)</span>
+                            <span class="item-code">BR-011</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-011%20Dresser&body=I%20would%20like%20to%20claim%20BR-011%20-%20Wood%20Dresser" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Crystal Candelabras (pair)</span>
+                            <span class="item-code">BR-012</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-012%20Candelabras&body=I%20would%20like%20to%20claim%20BR-012%20-%20Crystal%20Candelabras" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.36.19.jpg" alt="Bedroom Cabinet Detail" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>Bedroom Cabinet - Collectibles</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">White Ceramic Butterfly Sculpture</span>
+                            <span class="item-code">BR-013</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-013%20Butterfly&body=I%20would%20like%20to%20claim%20BR-013%20-%20Ceramic%20Butterfly" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Blue Decorative Ball</span>
+                            <span class="item-code">BR-014</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-014%20Blue%20Ball&body=I%20would%20like%20to%20claim%20BR-014%20-%20Blue%20Decorative%20Ball" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Small Clock</span>
+                            <span class="item-code">BR-015</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-015%20Clock&body=I%20would%20like%20to%20claim%20BR-015%20-%20Small%20Clock" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Personal Care Products Collection</span>
+                            <span class="item-code">BR-016</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-016%20Personal%20Care&body=I%20would%20like%20to%20claim%20BR-016%20-%20Personal%20Care%20Products" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.37.04.jpg" alt="Entertainment Unit - Media" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>Entertainment Unit - Media Storage</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">Sharp VCR/DVD Player</span>
+                            <span class="item-code">BR-017</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-017%20VCR&body=I%20would%20like%20to%20claim%20BR-017%20-%20Sharp%20VCR%2FDVD%20Player" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Küchenstolz Knife Set (boxed)</span>
+                            <span class="item-code">BR-018</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-018%20Knife%20Set&body=I%20would%20like%20to%20claim%20BR-018%20-%20Knife%20Set" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">CD/DVD Spindles (blank discs)</span>
+                            <span class="item-code">BR-019</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-019%20Discs&body=I%20would%20like%20to%20claim%20BR-019%20-%20Blank%20Discs" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">DVD/VHS Movie Collection</span>
+                            <span class="item-code">BR-020</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-020%20Movies&body=I%20would%20like%20to%20claim%20BR-020%20-%20Movie%20Collection" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Red Storage Case</span>
+                            <span class="item-code">BR-021</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-021%20Storage%20Case&body=I%20would%20like%20to%20claim%20BR-021%20-%20Red%20Storage%20Case" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Umbrellas (set)</span>
+                            <span class="item-code">BR-022</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BR-022%20Umbrellas&body=I%20would%20like%20to%20claim%20BR-022%20-%20Umbrellas" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- CLOSETS & STORAGE -->
+        <section id="closets" class="room-section">
+            <h2>Closets & Storage</h2>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.33.45.jpg" alt="Coat Closet" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>Coat Closet</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">Coats & Jackets Collection</span>
+                            <span class="item-code">CL-001</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-001%20Coats&body=I%20would%20like%20to%20claim%20CL-001%20-%20Coats%20and%20Jackets" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Red Knit Sweater/Cardigan</span>
+                            <span class="item-code">CL-002</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-002%20Sweater&body=I%20would%20like%20to%20claim%20CL-002%20-%20Red%20Sweater" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">White Winter/Down Jacket</span>
+                            <span class="item-code">CL-003</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-003%20Winter%20Jacket&body=I%20would%20like%20to%20claim%20CL-003%20-%20White%20Winter%20Jacket" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Blue Puffy Jacket</span>
+                            <span class="item-code">CL-004</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-004%20Blue%20Jacket&body=I%20would%20like%20to%20claim%20CL-004%20-%20Blue%20Puffy%20Jacket" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.34.20.jpg" alt="Bedroom Closet - Dress Clothes" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>Bedroom Closet - Dress Clothes</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">Men's Dress Shirts Collection</span>
+                            <span class="item-code">CL-005</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-005%20Dress%20Shirts&body=I%20would%20like%20to%20claim%20CL-005%20-%20Dress%20Shirts" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Suits & Blazers</span>
+                            <span class="item-code">CL-006</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-006%20Suits&body=I%20would%20like%20to%20claim%20CL-006%20-%20Suits%20and%20Blazers" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">UCLA Bag</span>
+                            <span class="item-code">CL-007</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-007%20UCLA%20Bag&body=I%20would%20like%20to%20claim%20CL-007%20-%20UCLA%20Bag" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Bedding/Pillows (closet shelf)</span>
+                            <span class="item-code">CL-008</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-008%20Bedding&body=I%20would%20like%20to%20claim%20CL-008%20-%20Closet%20Bedding" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Teddy Bear</span>
+                            <span class="item-code">CL-009</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-009%20Teddy%20Bear&body=I%20would%20like%20to%20claim%20CL-009%20-%20Teddy%20Bear" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.35.12.jpg" alt="Bedroom Closet - Casual" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>Bedroom Closet - Casual & Shoes</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">Green Painted Closet Organizer</span>
+                            <span class="item-code">CL-010</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-010%20Organizer&body=I%20would%20like%20to%20claim%20CL-010%20-%20Closet%20Organizer" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Women's Casual Clothing</span>
+                            <span class="item-code">CL-011</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-011%20Casual%20Clothes&body=I%20would%20like%20to%20claim%20CL-011%20-%20Casual%20Clothing" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Women's Shoes Collection (heels, flats, sandals)</span>
+                            <span class="item-code">CL-012</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-012%20Shoes&body=I%20would%20like%20to%20claim%20CL-012%20-%20Shoes%20Collection" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Handbags/Purses</span>
+                            <span class="item-code">CL-013</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-013%20Handbags&body=I%20would%20like%20to%20claim%20CL-013%20-%20Handbags" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.33.15.jpg" alt="Linen Closet" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>Linen Closet</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">White Linens & Towels</span>
+                            <span class="item-code">CL-014</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-014%20Linens&body=I%20would%20like%20to%20claim%20CL-014%20-%20Linens%20and%20Towels" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Sheets & Bedding</span>
+                            <span class="item-code">CL-015</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-015%20Sheets&body=I%20would%20like%20to%20claim%20CL-015%20-%20Sheets%20and%20Bedding" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Blue Storage Bag/Blanket</span>
+                            <span class="item-code">CL-016</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-016%20Storage%20Bag&body=I%20would%20like%20to%20claim%20CL-016%20-%20Blue%20Storage%20Bag" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.32.49.jpg" alt="Storage Cabinet" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>Storage Cabinet - Holiday & Misc</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">Christmas Decorations</span>
+                            <span class="item-code">CL-017</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-017%20Christmas%20Decor&body=I%20would%20like%20to%20claim%20CL-017%20-%20Christmas%20Decorations" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">NAO/Lladro Figurine (boxed)</span>
+                            <span class="item-code">CL-018</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-018%20NAO%20Figurine&body=I%20would%20like%20to%20claim%20CL-018%20-%20NAO%20Figurine" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Digital TV Converter Box</span>
+                            <span class="item-code">CL-019</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-019%20TV%20Converter&body=I%20would%20like%20to%20claim%20CL-019%20-%20Digital%20TV%20Converter" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">iPad Box (may be empty)</span>
+                            <span class="item-code">CL-020</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-020%20iPad%20Box&body=I%20would%20like%20to%20claim%20CL-020%20-%20iPad%20Box" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Ceramic House Figurine</span>
+                            <span class="item-code">CL-021</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-021%20Ceramic%20House&body=I%20would%20like%20to%20claim%20CL-021%20-%20Ceramic%20House%20Figurine" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Plastic Drawer Organizers (purple)</span>
+                            <span class="item-code">CL-022</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-022%20Organizers&body=I%20would%20like%20to%20claim%20CL-022%20-%20Drawer%20Organizers" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Snowman Decoration</span>
+                            <span class="item-code">CL-023</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20CL-023%20Snowman&body=I%20would%20like%20to%20claim%20CL-023%20-%20Snowman%20Decoration" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+        
+        <!-- BATHROOM -->
+        <section id="bathroom" class="room-section">
+            <h2>Bathroom</h2>
+            
+            <div class="photo-card">
+                <img src="images/20260131_09.38.14.jpg" alt="Bathroom" onclick="openLightbox(this)">
+                <div class="photo-info">
+                    <h3>Bathroom</h3>
+                    <ul class="items-list">
+                        <li>
+                            <span class="item-name">Over-Toilet Shelving Unit</span>
+                            <span class="item-code">BA-001</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BA-001%20Shelving&body=I%20would%20like%20to%20claim%20BA-001%20-%20Over-Toilet%20Shelving" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Wicker Storage Baskets</span>
+                            <span class="item-code">BA-002</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BA-002%20Baskets&body=I%20would%20like%20to%20claim%20BA-002%20-%20Wicker%20Baskets" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Magnifying Mirror</span>
+                            <span class="item-code">BA-003</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BA-003%20Mirror&body=I%20would%20like%20to%20claim%20BA-003%20-%20Magnifying%20Mirror" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Blue Monogrammed Bath Towels</span>
+                            <span class="item-code">BA-004</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BA-004%20Towels&body=I%20would%20like%20to%20claim%20BA-004%20-%20Monogrammed%20Towels" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Toiletries & Personal Care Products</span>
+                            <span class="item-code">BA-005</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BA-005%20Toiletries&body=I%20would%20like%20to%20claim%20BA-005%20-%20Toiletries" class="claim-btn">Claim</a>
+                        </li>
+                        <li>
+                            <span class="item-name">Makeup/Cosmetics Collection</span>
+                            <span class="item-code">BA-006</span>
+                            <a href="mailto:me@luishurtado.com?subject=Claim%20BA-006%20Cosmetics&body=I%20would%20like%20to%20claim%20BA-006%20-%20Cosmetics" class="claim-btn">Claim</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>Questions? Email <a href="mailto:me@luishurtado.com">me@luishurtado.com</a></p>
+        <p style="margin-top: 1rem; opacity: 0.7; font-size: 0.9rem;">First come, first served. All items as-is. Must arrange pickup.</p>
+    </footer>
+    
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+        <span class="lightbox-close">&times;</span>
+        <img src="" alt="Full size image" id="lightbox-img">
+    </div>
+    
+    <script>
+        function openLightbox(img) {
+            document.getElementById('lightbox-img').src = img.src;
+            document.getElementById('lightbox').classList.add('active');
+        }
+        
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+        
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeLightbox();
+        });
+    </script>
+</body>
+</html>
